@@ -6,6 +6,11 @@ from logger import log_state
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock = pygame.time.Clock()
+    dt = 0
+    
+    # everything below is the game loop
+
     while True:
         log_state()
         for event in pygame.event.get():
@@ -13,6 +18,15 @@ def main():
                 return
         screen.fill("black")
         pygame.display.flip()
+        milisec = clock.tick(60)
+        dt = milisec/1000
+        
+        
+        
+        
+        
+
+    
 
     print("Starting Asteroids with pygame version: VERSION")
     print("Screen width: 1280")
