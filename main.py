@@ -1,4 +1,6 @@
 import pygame
+pygame.init()
+pygame.font.init()
 import sys
 from constants import (SCREEN_WIDTH, SCREEN_HEIGHT)
 from logger import log_state
@@ -12,8 +14,13 @@ from logger import log_event
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption("My Pygame Score")
+    font = pygame.font.SysFont("Arial", 30, True)
     clock = pygame.time.Clock()
+    score = 0
+    score_increment = 100
     dt = 0
+    text_position = (10, 10)
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
@@ -34,6 +41,8 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill("black")
+        score_text = font.render(f"Score: {score}", True, "white")
+        screen.blit(score_text, text_position)
         for sprite in drawable:
             sprite.draw(screen)
         pygame.display.flip()
@@ -43,6 +52,7 @@ def main():
             if asteroid.collides_with(player):
                 log_event("player_hit")
                 print("Game Over!")
+                print(f"Your score was {score}")
                 sys.exit()
         for asteroid in asteroids:
             for shot in shots:
@@ -50,6 +60,8 @@ def main():
                     log_event("asteroid_shot")
                     shot.kill()
                     asteroid.split()
+                    score += score_increment
+                    
 
 
         milisec = clock.tick(60)
